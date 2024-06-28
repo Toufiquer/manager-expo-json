@@ -4,9 +4,11 @@ const data = { name: "John Doe", age: 30 };
 const filePath = FileSystem.documentDirectory + 'myData.json';
 
 
-export const createData = async(data:any) =>{FileSystem.writeAsStringAsync(filePath, JSON.stringify(data), {
-  encoding: FileSystem.EncodingType.UTF8,
-});}
+export const createData = async (data: any = []) => {
+  FileSystem.writeAsStringAsync(filePath, JSON.stringify(data), {
+    encoding: FileSystem.EncodingType.UTF8,
+  });
+};
 
 export const   readData=async()=> {
   try {
