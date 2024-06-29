@@ -15,11 +15,13 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
 import { getValue } from '@/components/store/store'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
+import useMenuUi from '@/components/utils/menu-ui-zustand/useMenuZuStand'
 
-function FirstUI() {
+function FirstUI({ setShowUI }: { setShowUI: (str: string) => void }) {
     const [currTitle, setCurrTitle] = useState('')
     const [subItems, setSubItems] = useState<any[]>([])
-    const [allMenu, setAllMenu] = useState<{ name: string; data: any }[]>([])
+    const allMenu = useMenuUi((state) => state.allMenu)
+    const setAllMenu = useMenuUi((state) => state.setAllMenu)
     useEffect(() => {
         ;(async () => {
             const getAllMenu = await getValue('user.menu')
@@ -127,7 +129,7 @@ function FirstUI() {
                                     )}
                                     <TouchableOpacity
                                         onPress={() => {
-                                            // setShowUI("deleteMenu");
+                                            setShowUI('deleteMenu')
                                             // setCurrentUIData({ title: curr.name, item: "" });
                                         }}
                                     >
@@ -207,7 +209,9 @@ function FirstUI() {
                                                             </TouchableOpacity>
                                                             <TouchableOpacity
                                                                 onPress={() => {
-                                                                    // setShowUI("deleteMenu");
+                                                                    setShowUI(
+                                                                        'deleteMenu'
+                                                                    )
                                                                     // setCurrentUIData({
                                                                     //   item: item.item,
                                                                     //   title: curr.name,

@@ -10,10 +10,13 @@ import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 import FirstUI from '@/components/tabs/menu/first-ui'
+import DeleteUI from '@/components/tabs/menu/delete-ui'
 
 function Menu() {
     const [showUi, setShowUI] = useState('')
-
+    const handleCancel = () => {
+        setShowUI('')
+    }
     const renderContent = () => {
         switch (showUi) {
             case 'createMenu':
@@ -23,9 +26,9 @@ function Menu() {
             case 'updateMenu':
                 return <Text>update UI</Text>
             case 'deleteMenu':
-                return <Text>delete UI</Text>
+                return <DeleteUI handleCancel={handleCancel} />
             default:
-                return <FirstUI />
+                return <FirstUI setShowUI={setShowUI} />
         }
     }
 

@@ -89,7 +89,7 @@ export const deleteValue = async (name: string) => {
         return 'Ops! try again'
     }
 }
-export const getAllKeysValue = async () => {
+export const getAllKeysOfValue = async () => {
     try {
         let storeData = await readData()
         const result = storeData.map((curr: storeDataType) => curr.name)
@@ -101,14 +101,14 @@ export const getAllKeysValue = async () => {
 }
 
 /**
- * !! How to use storage and return type declare here 
+ * !! How to use storage and return type declare here
  * ### you just call the function and it will read and write the storage.
  * ### Remember you can only call this method
  * 1. setValue(name:string, value:stringify) => return string
  * 2. getValue(name:string)=> return storeDataType | string
  * 3. clearAllValue()=> return string
  * 4. deleteValue(name:string)=> return string
- * 5. getAllKeysValue()=> return string[] | string
+ * 5. getAllKeysOfValue()=> return string[] | string
  *
  * !! Description of the functionality and methods
  *
@@ -119,7 +119,7 @@ export const getAllKeysValue = async () => {
  * @ 4. getValue(name:string) => createData() have JSON.parse method. so you don't need to parse the data.
  * @ 5. clearAllValue() => it will delete the all value
  * @ 6. deleteValue(name:string) => it will delete the value which is provided
- * @ 7. getAllKeysValue() => it will return all keys
+ * @ 7. getAllKeysOfValue() => it will return all keys
  *
  *
  *
