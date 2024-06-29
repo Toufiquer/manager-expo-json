@@ -1,52 +1,55 @@
 /*
 |-----------------------------------------
-| setting up First Load UI for the App
+| setting up Index for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: MyApp, January, 2024
+| @copyright: manager, June, 2024
 |-----------------------------------------
 */
-import { useState } from 'react'
+
+import { useEffect, useState } from 'react'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
-import { storage } from '@/components/store/store'
-import { Fonts } from '@/components/utils/Fonts/CustomFonts'
 import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
+import { getValue } from '@/components/store/store'
+import { Fonts } from '@/components/utils/Fonts/CustomFonts'
 
-const initOptionData = {
-    title: '',
-    data: [],
-}
-function FirstLoadUI({ setShowUI, handleCancel, setCurrentUIData }) {
-    const [arrOfMenu, setArrOfMenu] = useState([])
-    const [uiOptions, setUiOptions] = useState(initOptionData)
+function FirstUI() {
     const [currTitle, setCurrTitle] = useState('')
-    const [subItems, setSubItems] = useState([])
-    ;(async () => {
-        const menu = await storage.getString('user.menu')
-        if (menu) {
-            const parseMenu = JSON.parse(menu)
-            for (const m in parseMenu) {
+    const [subItems, setSubItems] = useState<any[]>([])
+    const [allMenu, setAllMenu] = useState<{ name: string; data: any }[]>([])
+    useEffect(() => {
+        ;(async () => {
+            const getAllMenu = await getValue('user.menu')
+            const arrOfMenu = []
+            for (const m in getAllMenu.data) {
                 const item = {
                     name: m.split('_').join(' ').split('-').join(' '),
-                    data: parseMenu[m],
+                    data: getAllMenu.data[m],
                 }
                 arrOfMenu.push(item)
             }
-        }
-    })()
-    const handleSubItems = ({ data, title }) => {
+            setAllMenu([...arrOfMenu])
+        })()
+    }, [])
+
+    const handleSubItems = ({
+        data,
+        title,
+    }: {
+        data: any[]
+        title: string
+    }) => {
         setCurrTitle(title)
         setSubItems([...data])
     }
-    console.log('arr of menu', arrOfMenu)
     let renderer = (
         <View>
             <View className="flex w-full flex-col items-center justify-center gap-4 py-2 pb-8 pl-4">
-                {arrOfMenu.length > 0 &&
-                    arrOfMenu.map((curr, idx) => (
+                {allMenu.length > 0 &&
+                    allMenu.map((curr, idx) => (
                         <View
                             key={curr.name + idx}
                             className="rounded-lg bg-white py-2 pl-2 shadow-lg shadow-indigo-500/50"
@@ -83,11 +86,8 @@ function FirstLoadUI({ setShowUI, handleCancel, setCurrentUIData }) {
                                 <View className="flex flex-row items-center justify-between gap-4 pr-2">
                                     <TouchableOpacity
                                         onPress={() => {
-                                            setShowUI('addMenu')
-                                            setCurrentUIData({
-                                                title: curr.name,
-                                                item: '',
-                                            })
+                                            // setShowUI("addMenu");
+                                            // setCurrentUIData({ title: curr.name, item: "" });
                                         }}
                                     >
                                         <Feather
@@ -127,11 +127,8 @@ function FirstLoadUI({ setShowUI, handleCancel, setCurrentUIData }) {
                                     )}
                                     <TouchableOpacity
                                         onPress={() => {
-                                            setShowUI('deleteMenu')
-                                            setCurrentUIData({
-                                                title: curr.name,
-                                                item: '',
-                                            })
+                                            // setShowUI("deleteMenu");
+                                            // setCurrentUIData({ title: curr.name, item: "" });
                                         }}
                                     >
                                         <EvilIcons
@@ -195,15 +192,11 @@ function FirstLoadUI({ setShowUI, handleCancel, setCurrentUIData }) {
                                                         <View className="flex flex-row items-center justify-between gap-4 pr-2">
                                                             <TouchableOpacity
                                                                 onPress={() => {
-                                                                    setShowUI(
-                                                                        'updateMenu'
-                                                                    )
-                                                                    setCurrentUIData(
-                                                                        {
-                                                                            item: item.item,
-                                                                            title: curr.name,
-                                                                        }
-                                                                    )
+                                                                    // setShowUI("updateMenu");
+                                                                    // setCurrentUIData({
+                                                                    //   item: item.item,
+                                                                    //   title: curr.name,
+                                                                    // });
                                                                 }}
                                                             >
                                                                 <Feather
@@ -214,15 +207,11 @@ function FirstLoadUI({ setShowUI, handleCancel, setCurrentUIData }) {
                                                             </TouchableOpacity>
                                                             <TouchableOpacity
                                                                 onPress={() => {
-                                                                    setShowUI(
-                                                                        'deleteMenu'
-                                                                    )
-                                                                    setCurrentUIData(
-                                                                        {
-                                                                            item: item.item,
-                                                                            title: curr.name,
-                                                                        }
-                                                                    )
+                                                                    // setShowUI("deleteMenu");
+                                                                    // setCurrentUIData({
+                                                                    //   item: item.item,
+                                                                    //   title: curr.name,
+                                                                    // });
                                                                 }}
                                                             >
                                                                 <EvilIcons
@@ -244,60 +233,6 @@ function FirstLoadUI({ setShowUI, handleCancel, setCurrentUIData }) {
                                                         </Text>
                                                     )}
                                                 </View>
-                                                <View>
-                                                    {item.item ===
-                                                        uiOptions.title && (
-                                                        <View className="flex flex-row flex-wrap gap-2">
-                                                            {uiOptions.data.map(
-                                                                (item) => (
-                                                                    <View className="rounded-lg border border-gray-400  p-2 ">
-                                                                        {(item.name ||
-                                                                            item.optionFor) && (
-                                                                            <Text className="uppercase text-gray-900">
-                                                                                {
-                                                                                    item.name
-                                                                                }{' '}
-                                                                                {item.optionFor && (
-                                                                                    <Text className="lowercase">
-                                                                                        (
-                                                                                        {
-                                                                                            item.optionFor
-                                                                                        }
-
-                                                                                        )
-                                                                                    </Text>
-                                                                                )}
-                                                                            </Text>
-                                                                        )}
-                                                                        <Text className="text-xs text-gray-700">
-                                                                            {item.required
-                                                                                ? 'Required'
-                                                                                : 'Not Required'}
-                                                                        </Text>
-                                                                        {item.options?.map(
-                                                                            (
-                                                                                i,
-                                                                                idx
-                                                                            ) => (
-                                                                                <Text className="text-gray-700">
-                                                                                    {idx +
-                                                                                        1}
-
-                                                                                    .{' '}
-                                                                                    {
-                                                                                        i.name
-                                                                                    }{' '}
-                                                                                    {i.price &&
-                                                                                        `(${i.price})`}
-                                                                                </Text>
-                                                                            )
-                                                                        )}
-                                                                    </View>
-                                                                )
-                                                            )}
-                                                        </View>
-                                                    )}
-                                                </View>
                                             </View>
                                         ))}
                                     </View>
@@ -307,8 +242,14 @@ function FirstLoadUI({ setShowUI, handleCancel, setCurrentUIData }) {
             </View>
         </View>
     )
-    return <ScreenWrapper>{renderer}</ScreenWrapper>
+
+    return (
+        <ScreenWrapper>
+            <View>{renderer}</View>
+        </ScreenWrapper>
+    )
 }
+
 const styles = StyleSheet.create({
     fontsMulishBlack: {
         fontFamily: Fonts.MulishBlack,
@@ -317,4 +258,4 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.MulishMedium,
     },
 })
-export default FirstLoadUI
+export default FirstUI
