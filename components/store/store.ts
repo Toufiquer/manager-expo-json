@@ -28,16 +28,17 @@ export const storage = {
         const isExist = storeData.find(
             (data: storeDataType) => data.name === name
         )
+        const parseValue = JSON.parse(value) // when set method is called it give string value
         if (isExist) {
             storeData = storeData.map((curr: storeDataType) => {
                 const i = { ...curr }
                 if (i.name === name) {
-                    i.data = value
+                    i.data = parseValue
                 }
                 return i
             })
         } else {
-            storeData = [...storeData, { name, data: value }]
+            storeData = [...storeData, { name, data: parseValue }]
         }
         await createData(storeData)
         return 'successfully created'
@@ -47,14 +48,14 @@ export const storage = {
         const isExist = storeData.find(
             (data: storeDataType) => data.name === name
         )
-        return isExist
+        return JSON.stringify(isExist)
     },
     getNumber: async (name: string) => {
         let storeData = await readData()
         const isExist = storeData.find(
             (data: storeDataType) => data.name === name
         )
-        return isExist
+        return JSON.stringify(isExist)
     },
     clearAll: async () => {
         await createData([])
@@ -74,3 +75,31 @@ export const storage = {
         return result
     },
 }
+
+/**
+ * !! How to use storage  
+ * ### you just call the method as mmkv and this storage will change and get the data as well as mmvk. 
+ * ### Remember you can only call this method
+ * 1. storage.set(name:string, value:stringify)
+ * 2. storage.getString(name:string)
+ * 3. storage.getNumber(name:string)
+ * 4. storage.clearAll()
+ * 5. storage.delete(name:string)
+ * 6. storage.getAllKeys()
+ * 
+ * !! Description of the functionality and methods 
+ * 
+ * @ 1.createData()  =>  This will write the data to the file system using expo-file-system
+ * @ 2.readData()  =>  This will read the data to the file system using expo-file-system
+ * 
+ * @ 3.storage.set(name:string, value:stringify) => it parse the value because createData() have JSON.stringify method. and it save the value
+ * @ 4.storage.getString(name:string) => it stringify the value because readData() have JSON.parse method. and it read the value
+ * @ 5.storage.getNumber(name:string) => it stringify the value because readData() have JSON.parse method. and it read the value
+ * @ 6.storage.clearAll() => it will delete the all value
+ * @ 7.storage.delete(name:string) => it will delete the value which is provided
+ * @ 8.storage.getAllKeys() => it will return all keys
+ * 
+ * 
+ * 
+ * 
+ * */ 

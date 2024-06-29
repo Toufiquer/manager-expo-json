@@ -7,49 +7,49 @@ import { useEffect, useState } from "react";
 
 export default function TabOneScreen() {
   const [isLoading, setIsLoading] = useState(true);
-  const fetchData = async () => {
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("Fetching data start ");
-    console.log(
-      "process.env.EXPO_PUBLIC_API_URL",
-      process.env.EXPO_PUBLIC_API_URL
-    );
-    const fetchData = await fetch(process.env.EXPO_PUBLIC_API_URL as string);
-    console.log("fetch data :", fetchData);
-    console.log("Fetching data end ");
-  };
-  useEffect(() => {
-    setIsLoading(true);
-    console.log("use effect invoked STart");
-    fetchData();
-    try {
-      fetch(process.env.EXPO_PUBLIC_API_URL as string)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data?.content?.a) {
-            delete data.content.a;
-            delete data?.content?.n;
-            const result = [];
-            for (const m in data.content) {
-              const item = {
-                name: m.split("_").join(" ").split("-").join(" "),
-                data: data.content[m],
-              };
-              result.push(item);
-            }
-            console.log("result : ", result);
-            // setApiData(result);
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
-    console.log("use effect invoked End");
-    setIsLoading(false);
-  }, []);
+  // const fetchData = async () => {
+  //   console.log("");
+  //   console.log("");
+  //   console.log("");
+  //   console.log("Fetching data start ");
+  //   console.log(
+  //     "process.env.EXPO_PUBLIC_API_URL",
+  //     process.env.EXPO_PUBLIC_API_URL
+  //   );
+  //   const fetchData = await fetch(process.env.EXPO_PUBLIC_API_URL as string);
+  //   console.log("fetch data :", fetchData);
+  //   console.log("Fetching data end ");
+  // };
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   console.log("use effect invoked STart");
+  //   fetchData();
+  //   try {
+  //     fetch(process.env.EXPO_PUBLIC_API_URL as string)
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //         if (data?.content?.a) {
+  //           delete data.content.a;
+  //           delete data?.content?.n;
+  //           const result = [];
+  //           for (const m in data.content) {
+  //             const item = {
+  //               name: m.split("_").join(" ").split("-").join(" "),
+  //               data: data.content[m],
+  //             };
+  //             result.push(item);
+  //           }
+  //           console.log("result : ", result);
+  //           // setApiData(result);
+  //         }
+  //       });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  //   console.log("use effect invoked End");
+  //   setIsLoading(false);
+  // }, []);
 
   const handlePressGet = async () => {
     await storage.getString("name");
@@ -64,9 +64,9 @@ export default function TabOneScreen() {
   let renderUI = (
     <View style={styles.container}>
       <Text className="text-rose-400">Custom text</Text>
-      <TouchableOpacity onPress={fetchData}>
+      {/* <TouchableOpacity onPress={fetchData}>
         <Text>fetch Data</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity onPress={handlePressCreateData}>
         <Text>Set []</Text>
       </TouchableOpacity>

@@ -9,14 +9,15 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
 
 import "./global.css"
+import { storage } from "@/components/store/store";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
-} from 'expo-router';
+} from "expo-router";
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: "(tabs)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -27,6 +28,29 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+  const getMenuAndSave = async () => {
+    const request = await fetch(process.env.EXPO_PUBLIC_API_URL as string);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const response = await request.json();
+
+    if (request.status === 200) {
+      const { content } = response;
+      delete content.a;
+      delete content.n;
+
+      storage.set("user.menu", JSON.stringify(content));
+    } else {
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      const getUserMenu = await storage.getString("user.menu");
+      if (!getUserMenu) {
+        await getMenuAndSave();
+      }
+      console.log("getUserMenu : ", getUserMenu);
+    })();
+  }, []);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {

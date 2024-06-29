@@ -1,49 +1,71 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
-type Movie = {
-  id: string;
-  title: string;
-  releaseYear: string;
-};
+import EditScreenInfo from "@/components/EditScreenInfo";
+import { Text, View } from "@/components/Themed";
+import { createData, readData, storage } from "@/components/store/store";
+import { useEffect, useState } from "react";
 
-const App = () => {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState<Movie[]>([]);
+export default function TabTwoScreen() {
+  const [isLoading, setIsLoading] = useState(false);
+  const fetchData = async () => {
+    const getMenuAndSave = async () => {
+      const request = await fetch(process.env.EXPO_PUBLIC_API_URL as string);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const response = await request.json();
 
-  const getMovies = async () => {
-    try {
-      const response = await fetch("https://reactnative.dev/movies.json");
-      const json = await response.json();
-      setData(json.movies);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+      if (request.status === 200) {
+        const { content } = response;
+        delete content.a;
+        delete content.n;
+        console.log("fetch content : ", JSON.stringify(content));
+        // storage.set("user.menu", JSON.stringify(content));
+      } else {
+      }
+    };
+    getMenuAndSave();
+  };
+  const handlePressGet = async () => {
+    await storage.getString("name");
+  };
+  const handlePressSave = async () => {
+    await storage.set("name", "new name 101");
+  };
+  const handlePressCreateData = async () => {
+    createData([]);
+  };
+  const handleGetFullStore = async () => {
+    const data = await readData();
+    console.log(" get all data : ", data);
   };
 
-  useEffect(() => {
-    getMovies();
-  }, []);
+  const Button = ({ str }: { str: string }) => (
+    <Text className="text-xl border px-4 my-2 rounded-lg">{str}</Text>
+  );
 
-  return (
-    <View style={{ flex: 1, padding: 24 }}>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          data={data}
-          keyExtractor={({ id }) => id}
-          renderItem={({ item }) => (
-            <Text>
-              {item.title}, {item.releaseYear}
-            </Text>
-          )}
-        />
-      )}
+  let renderUI = (
+    <View className="flex-1 items-center justify-center">
+      <Text className="text-rose-400 text-2xl mb-2">Tailwind css </Text>
+      <TouchableOpacity onPress={fetchData}>
+        <Button str="fetch Data" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handlePressCreateData}>
+        <Button str="clear full storage" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handlePressGet}>
+        <Button str="Get Data" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handlePressSave}>
+        <Button str="Save Data" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleGetFullStore}>
+        <Button str="Get full Store" />
+      </TouchableOpacity>
     </View>
   );
-};
-
-export default App;
+  let loadingUI = (
+    <View>
+      <Text>Loading...</Text>
+    </View>
+  );
+  return isLoading ? loadingUI : renderUI;
+}
