@@ -9,7 +9,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
 
 import "./global.css"
-import { storage } from "@/components/store/store";
+import { getValue, setValue } from "@/components/store/store";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -44,14 +44,16 @@ export default function RootLayout() {
       delete content.a;
       delete content.n;
 
-      storage.set("user.menu", JSON.stringify(content));
+      setValue("user.menu", content);
     } else {
     }
   };
   useEffect(() => {
     (async () => {
-      const getUserMenu = await storage.getString("user.menu");
+      const getUserMenu = await getValue("user.menu");
+      // console.log(getUserMenu);
       if (!getUserMenu) {
+        // console.log(getUserMenu, "inside ");
         await getMenuAndSave();
       }
     })();

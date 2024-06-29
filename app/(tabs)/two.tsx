@@ -2,7 +2,12 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { createData, readData, storage } from "@/components/store/store";
+import {
+  createData,
+  getValue,
+  readData,
+  setValue,
+} from "@/components/store/store";
 import { useEffect, useState } from "react";
 
 export default function TabTwoScreen() {
@@ -25,17 +30,22 @@ export default function TabTwoScreen() {
     getMenuAndSave();
   };
   const handlePressGet = async () => {
-    await storage.getString("name");
+    await getValue("name");
   };
   const handlePressSave = async () => {
-    await storage.set("name", "new name 101");
+    await setValue("name", "new name 101");
   };
   const handlePressCreateData = async () => {
     createData([]);
   };
   const handleGetFullStore = async () => {
     const data = await readData();
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("");
     console.log(" get all data : ", data);
+    console.log(" get all data length: ", data.length);
   };
 
   const Button = ({ str }: { str: string }) => (
