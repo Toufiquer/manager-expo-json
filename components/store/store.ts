@@ -61,7 +61,7 @@ export const getValue = async (name: string) => {
         const isExist = storeData.find(
             (data: storeDataType) => data.name === name
         )
-        return JSON.stringify(isExist)
+        return isExist
     } catch (err) {
         console.log('error form storage : ', err)
         return 'Ops! try again'
