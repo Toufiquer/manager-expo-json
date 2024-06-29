@@ -54,7 +54,6 @@ export default function RootLayout() {
       if (!getUserMenu) {
         await getMenuAndSave();
       }
-      // console.log("getUserMenu : ", getUserMenu);
     })();
   }, []);
 
