@@ -26,6 +26,12 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    "Mulish-Black": require("../assets/fonts/Mulish-Black.ttf"),
+    "Mulish-ExtraBold": require("../assets/fonts/Mulish-ExtraBold.ttf"),
+    "Mulish-Italic": require("../assets/fonts/Mulish-Italic.ttf"),
+    "Mulish-Medium": require("../assets/fonts/Mulish-Medium.ttf"),
+    "Mulish-Regular": require("../assets/fonts/Mulish-Regular.ttf"),
+    "Mulish-SemiBold": require("../assets/fonts/Mulish-SemiBold.ttf"),
     ...FontAwesome.font,
   });
   const getMenuAndSave = async () => {
@@ -48,7 +54,7 @@ export default function RootLayout() {
       if (!getUserMenu) {
         await getMenuAndSave();
       }
-      console.log("getUserMenu : ", getUserMenu);
+      // console.log("getUserMenu : ", getUserMenu);
     })();
   }, []);
 
