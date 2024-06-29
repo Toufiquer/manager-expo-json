@@ -1,30 +1,43 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+/*
+|-----------------------------------------
+| setting up Storage for the App
+| @author: Toufiquer Rahman<toufiquer.0@gmail.com>
+| @copyright: Toufiquer, June, 2024
+|-----------------------------------------
+*/
+import { useState } from "react";
+import { TouchableOpacity } from "react-native";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
 import {
   createData,
   getValue,
   readData,
   setValue,
 } from "@/components/store/store";
-import { useEffect, useState } from "react";
+import { Text, View } from "@/components/Themed";
 
 export default function TabTwoScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const fetchData = async () => {
     const getMenuAndSave = async () => {
-      const request = await fetch(process.env.EXPO_PUBLIC_API_URL as string);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const response = await request.json();
+      try {
+        setIsLoading(true);
+        const request = await fetch(process.env.EXPO_PUBLIC_API_URL as string);
+        const response = await request.json();
 
-      if (request.status === 200) {
-        const { content } = response;
-        delete content.a;
-        delete content.n;
-        console.log("fetch content : ", JSON.stringify(content));
-        // storage.set("user.menu", JSON.stringify(content));
-      } else {
+        if (request.status === 200) {
+          const { content } = response;
+          delete content.a;
+          delete content.n;
+          console.log("fetch content : ", JSON.stringify(content));
+          // storage.set("user.menu", JSON.stringify(content));
+        } else {
+          console.log(" something went wrong [fetch] plz try again");
+        }
+      } catch (error) {
+        console.log("Something went wrong [fetch] plz try again", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getMenuAndSave();
