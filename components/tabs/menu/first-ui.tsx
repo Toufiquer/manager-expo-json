@@ -1,57 +1,42 @@
 /*
 |-----------------------------------------
-| setting up Index for the App
+| setting up First Load UI for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: manager, June, 2024
+| @copyright: MyApp, January, 2024
 |-----------------------------------------
 */
-
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
-import { getValue } from '@/components/store/store'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
-import useMenuUi from '@/components/utils/menu-ui-zustand/useMenuZuStand'
 
-function FirstUI({ setShowUI }: { setShowUI: (str: string) => void }) {
+import menu from '@/assets/json/menu.json'
+
+function FirstLoadUI({ setShowUI, setCurrentUIData }) {
     const [currTitle, setCurrTitle] = useState('')
-    const [subItems, setSubItems] = useState<any[]>([])
-    const allMenu = useMenuUi((state) => state.allMenu)
-    const setAllMenu = useMenuUi((state) => state.setAllMenu)
-    useEffect(() => {
-        ;(async () => {
-            const getAllMenu = await getValue('user.menu')
-            const arrOfMenu = []
-            for (const m in getAllMenu.data) {
-                const item = {
-                    name: m.split('_').join(' ').split('-').join(' '),
-                    data: getAllMenu.data[m],
-                }
-                arrOfMenu.push(item)
-            }
-            setAllMenu([...arrOfMenu])
-        })()
-    }, [])
-
-    const handleSubItems = ({
-        data,
-        title,
-    }: {
-        data: any[]
-        title: string
-    }) => {
+    const [subItems, setSubItems] = useState([])
+    const arrOfMenu = []
+    const parseMenu = menu
+    for (const m in parseMenu) {
+        const item = {
+            name: m.split('_').join(' ').split('-').join(' '),
+            data: parseMenu[m],
+        }
+        arrOfMenu.push(item)
+    }
+    const handleSubItems = ({ data, title }) => {
         setCurrTitle(title)
         setSubItems([...data])
     }
     let renderer = (
         <View>
             <View className="flex w-full flex-col items-center justify-center gap-4 py-2 pb-8 pl-4">
-                {allMenu.length > 0 &&
-                    allMenu.map((curr, idx) => (
+                {arrOfMenu.length > 0 &&
+                    arrOfMenu.map((curr, idx) => (
                         <View
                             key={curr.name + idx}
                             className="rounded-lg bg-white py-2 pl-2 shadow-lg shadow-indigo-500/50"
@@ -88,8 +73,11 @@ function FirstUI({ setShowUI }: { setShowUI: (str: string) => void }) {
                                 <View className="flex flex-row items-center justify-between gap-4 pr-2">
                                     <TouchableOpacity
                                         onPress={() => {
-                                            // setShowUI("addMenu");
-                                            // setCurrentUIData({ title: curr.name, item: "" });
+                                            setShowUI('addMenu')
+                                            setCurrentUIData({
+                                                title: curr.name,
+                                                item: '',
+                                            })
                                         }}
                                     >
                                         <Feather
@@ -130,7 +118,10 @@ function FirstUI({ setShowUI }: { setShowUI: (str: string) => void }) {
                                     <TouchableOpacity
                                         onPress={() => {
                                             setShowUI('deleteMenu')
-                                            // setCurrentUIData({ title: curr.name, item: "" });
+                                            setCurrentUIData({
+                                                title: curr.name,
+                                                item: '',
+                                            })
                                         }}
                                     >
                                         <EvilIcons
@@ -153,7 +144,7 @@ function FirstUI({ setShowUI }: { setShowUI: (str: string) => void }) {
                             {curr?.name === currTitle &&
                                 subItems.length > 0 && (
                                     <View>
-                                        {subItems.map((item, idx) => (
+                                        {subItems.map((item: any, idx) => (
                                             <View key={item.id || '' + idx}>
                                                 <View className="mt-3 rounded-lg border-t border-gray-400 px-2 py-2">
                                                     <View className="flex w-full flex-row justify-between ">
@@ -194,11 +185,15 @@ function FirstUI({ setShowUI }: { setShowUI: (str: string) => void }) {
                                                         <View className="flex flex-row items-center justify-between gap-4 pr-2">
                                                             <TouchableOpacity
                                                                 onPress={() => {
-                                                                    // setShowUI("updateMenu");
-                                                                    // setCurrentUIData({
-                                                                    //   item: item.item,
-                                                                    //   title: curr.name,
-                                                                    // });
+                                                                    setShowUI(
+                                                                        'updateMenu'
+                                                                    )
+                                                                    setCurrentUIData(
+                                                                        {
+                                                                            item: item.item,
+                                                                            title: curr.name,
+                                                                        }
+                                                                    )
                                                                 }}
                                                             >
                                                                 <Feather
@@ -212,10 +207,12 @@ function FirstUI({ setShowUI }: { setShowUI: (str: string) => void }) {
                                                                     setShowUI(
                                                                         'deleteMenu'
                                                                     )
-                                                                    // setCurrentUIData({
-                                                                    //   item: item.item,
-                                                                    //   title: curr.name,
-                                                                    // });
+                                                                    setCurrentUIData(
+                                                                        {
+                                                                            item: item.item,
+                                                                            title: curr.name,
+                                                                        }
+                                                                    )
                                                                 }}
                                                             >
                                                                 <EvilIcons
@@ -246,14 +243,8 @@ function FirstUI({ setShowUI }: { setShowUI: (str: string) => void }) {
             </View>
         </View>
     )
-
-    return (
-        <ScreenWrapper>
-            <View>{renderer}</View>
-        </ScreenWrapper>
-    )
+    return <ScreenWrapper>{renderer}</ScreenWrapper>
 }
-
 const styles = StyleSheet.create({
     fontsMulishBlack: {
         fontFamily: Fonts.MulishBlack,
@@ -262,4 +253,4 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.MulishMedium,
     },
 })
-export default FirstUI
+export default FirstLoadUI

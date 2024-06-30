@@ -11,79 +11,74 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
 
-// import { storage } from "@/App";
+import menu from '@/assets/json/menu.json'
 
-function DeleteUI({ handleCancel }: { handleCancel: () => void }) {
+function DeleteUI({ handleCancel, currentUIData }) {
     const [process, setProcess] = useState(false)
-    // const getStoreData = () => {
-    // const storeData = storage.getString('user.menu') || ''
-    //     const menu = JSON.parse(storeData)
-    //     return menu
-    // }
+
     const handleDeleteConfirm = () => {
-        // setProcess(true)
-        // let result = {}
-        // const menu = getStoreData()
-        // if (currentUIData.item) {
-        //     for (let m in menu) {
-        //         const checked =
-        //             m
-        //                 .split('-')
-        //                 .join(' ')
-        //                 .split('_')
-        //                 .join(' ')
-        //                 .toLocaleLowerCase() ===
-        //             currentUIData.title
-        //                 .split('-')
-        //                 .join(' ')
-        //                 .split('_')
-        //                 .join(' ')
-        //                 .toLocaleLowerCase()
-        //         if (checked) {
-        //             result[m] = {
-        //                 srl: menu[m]?.srl,
-        //                 available: menu[m]?.available,
-        //                 lst: menu[m]?.lst?.filter(
-        //                     (curr) => curr.item !== currentUIData.item
-        //                 ),
-        //             }
-        //             if (menu[m]?.i) {
-        //                 result[m].i = menu[m].i
-        //             }
-        //         } else {
-        //             result[m] = menu[m]
-        //         }
-        //     }
-        // } else {
-        //     for (let m in menu) {
-        //         if (
-        //             m
-        //                 .split('-')
-        //                 .join(' ')
-        //                 .split('_')
-        //                 .join(' ')
-        //                 .toLocaleLowerCase() !==
-        //             currentUIData.title
-        //                 .split('-')
-        //                 .join(' ')
-        //                 .split('_')
-        //                 .join(' ')
-        //                 .toLocaleLowerCase()
-        //         ) {
-        //             result[m] = {
-        //                 srl: menu[m]?.srl,
-        //                 available: menu[m]?.available,
-        //                 lst: menu[m]?.lst,
-        //             }
-        //             if (menu[m]?.i) {
-        //                 result[m].i = menu[m].i
-        //             }
-        //         }
-        //     }
-        // }
-        // // storage.set('user.menu', JSON.stringify(result))
-        // setProcess(false)
-        // handleCancel()
+        setProcess(true)
+        let result: any = {}
+        if (currentUIData.item) {
+            for (let m in menu) {
+                const checked =
+                    m
+                        .split('-')
+                        .join(' ')
+                        .split('_')
+                        .join(' ')
+                        .toLocaleLowerCase() ===
+                    currentUIData.title
+                        .split('-')
+                        .join(' ')
+                        .split('_')
+                        .join(' ')
+                        .toLocaleLowerCase()
+                if (checked) {
+                    result[m] = {
+                        srl: menu[m]?.srl,
+                        available: menu[m]?.available,
+                        lst: menu[m]?.lst?.filter(
+                            (curr) => curr.item !== currentUIData.item
+                        ),
+                    }
+                    if (menu[m]?.i) {
+                        result[m].i = menu[m].i
+                    }
+                } else {
+                    result[m] = menu[m]
+                }
+            }
+        } else {
+            for (let m in menu) {
+                if (
+                    m
+                        .split('-')
+                        .join(' ')
+                        .split('_')
+                        .join(' ')
+                        .toLocaleLowerCase() !==
+                    currentUIData.title
+                        .split('-')
+                        .join(' ')
+                        .split('_')
+                        .join(' ')
+                        .toLocaleLowerCase()
+                ) {
+                    result[m] = {
+                        srl: menu[m]?.srl,
+                        available: menu[m]?.available,
+                        lst: menu[m]?.lst,
+                    }
+                    if (menu[m]?.i) {
+                        result[m].i = menu[m].i
+                    }
+                }
+            }
+        }
+        console.log(' submission data: ', result)
+        setProcess(false)
+        handleCancel()
     }
     return (
         <View>
@@ -95,9 +90,8 @@ function DeleteUI({ handleCancel }: { handleCancel: () => void }) {
                                 style={styles.fontsMulishBlack}
                                 className="max-w-[80%] text-2xl font-extrabold text-gray-900"
                             >
-                                current item
-                                {/* {currentUIData.item?.split('_').join(' ') ||
-                                    currentUIData.title?.split('_').join(' ')} */}
+                                {currentUIData.item?.split('_').join(' ') ||
+                                    currentUIData.title?.split('_').join(' ')}
                             </Text>
                             <View className="flex h-full items-start justify-start">
                                 <TouchableOpacity

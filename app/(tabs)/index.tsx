@@ -5,34 +5,57 @@
 | @copyright: Toufiquer, June, 2024
 |-----------------------------------------
 */
+import React, { useState } from 'react'
+import { View, StyleSheet } from 'react-native'
 
-import { useEffect, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
+import CommonMenuForm from '@/components/tabs/menu/menu-form/common-menu-form'
 
-import FirstUI from '@/components/tabs/menu/first-ui'
+import FirstLoadUI from '@/components/tabs/menu/first-ui'
+import CreateMenu from '@/components/tabs/menu/create-menu'
 import DeleteUI from '@/components/tabs/menu/delete-ui'
+import { Text } from 'react-native'
 
 function Menu() {
-    const [showUi, setShowUI] = useState('')
-    const handleCancel = () => {
-        setShowUI('')
-    }
-    const renderContent = () => {
-        switch (showUi) {
-            case 'createMenu':
-                return <Text>create UI</Text>
-            case 'addMenu':
-                return <Text>add UI</Text>
-            case 'updateMenu':
-                return <Text>update UI</Text>
-            case 'deleteMenu':
-                return <DeleteUI handleCancel={handleCancel} />
-            default:
-                return <FirstUI setShowUI={setShowUI} />
-        }
-    }
+ const [showUi, setShowUI] = useState('')
+ const [currentUIData, setCurrentUIData] = useState({ title: '', item: '' })
 
-    return renderContent()
+ const handleCancel = () => {
+  setShowUI('')
+ }
+
+ const renderContent = () => {
+  switch (showUi) {
+   case 'createMenu':
+    return <CreateMenu handleCancel={handleCancel} />
+   case 'addMenu':
+   case 'updateMenu':
+    return (
+     <CommonMenuForm
+      handleCancel={handleCancel}
+      currentUIData={currentUIData}
+     />
+    )
+   case 'deleteMenu':
+    return (
+     <DeleteUI handleCancel={handleCancel} currentUIData={currentUIData} />
+    )
+   default:
+    return (
+     <FirstLoadUI
+      setShowUI={setShowUI}
+      handleCancel={handleCancel}
+      setCurrentUIData={setCurrentUIData}
+     />
+    )
+  }
+ }
+
+ return (
+  <ScreenWrapper>
+   <View>{renderContent()}</View>
+  </ScreenWrapper>
+ )
 }
 
 export default Menu
