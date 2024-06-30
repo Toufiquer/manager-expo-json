@@ -2,7 +2,7 @@
 |-----------------------------------------
 | setting up Common Menu Form for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: MyApp, January, 2024
+| @copyright: Manager, June, 2024
 |-----------------------------------------
 */
 import { z } from 'zod'
@@ -32,7 +32,7 @@ export const newItemSchema = z.object({
             required_error: 'Item is required',
         })
         .min(3, 'Minimum 3 characters')
-        .max(20, 'Maximum 20 characters')
+        .max(320, 'Maximum 20 characters')
         .trim(),
 
     price: z
@@ -59,7 +59,7 @@ export const newItemSchema = z.object({
                     required_error: 'Name is required',
                 })
                 .min(3, 'Minimum 3 characters')
-                .max(20, 'Maximum 20 characters')
+                .max(320, 'Maximum 20 characters')
                 .trim(),
 
             optionFor: z
@@ -80,7 +80,7 @@ export const newItemSchema = z.object({
                             invalid_type_error: 'Name must be a string',
                         })
                         .min(3, 'Minimum 3 characters')
-                        .max(20, 'Maximum 20 characters')
+                        .max(320, 'Maximum 20 characters')
                         .trim(),
                     price: z
                         .string()
@@ -155,6 +155,98 @@ function CommonMenuForm({
             }
         }
     }, [])
+
+    const cleanMenuData = (menuData) => {
+        const simplifiedMenuData: any = {}
+
+        for (const menuCategory in menuData) {
+            simplifiedMenuData[menuCategory] = {
+                srl: menuData[menuCategory].srl,
+                available: menuData[menuCategory].available,
+                lst: menuData[menuCategory].lst.map((item) => {
+                    const simplifiedItem = {
+                        item: item.item,
+                        id: item.id,
+                        price: item.price,
+                        info: item.info,
+                    }
+
+                    // Clean option fields
+                    if (item.option) {
+                        const newOption = []
+                        for (let option of item.option) {
+                            if (
+                                option.name === undefined ||
+                                option.name === ''
+                            ) {
+                                delete option.name
+                            }
+                            if (
+                                option.optionFor === undefined ||
+                                option.optionFor === ''
+                            ) {
+                                delete option.optionFor
+                            }
+                            if (
+                                option.required === undefined ||
+                                option.required === '' ||
+                                !option.required
+                            ) {
+                                delete option.required
+                            } else {
+                                // If no name, delete the whole option
+                                if (
+                                    option.name === undefined ||
+                                    option.name === ''
+                                ) {
+                                    item.option.splice(
+                                        item.option.indexOf(option),
+                                        1
+                                    )
+                                }
+                            }
+
+                            if (option.options) {
+                                for (let opt of option.options) {
+                                    if (
+                                        opt.name === undefined ||
+                                        opt.name === ''
+                                    ) {
+                                        delete opt.name
+                                    }
+                                    if (
+                                        opt.price === undefined ||
+                                        opt.price === ''
+                                    ) {
+                                        delete opt.price
+                                    }
+                                }
+                            }
+
+                            // if options have an empty {} then filter them
+                            if (option.options?.length >= 1) {
+                                option.options = option.options.filter(
+                                    (curr) => curr.name || curr.price
+                                )
+                            }
+
+                            // if options inside option is not specified data then delete options
+                            if (option.options?.length === 0) {
+                                delete option.options
+                            }
+                            newOption.push(option)
+                        }
+                        if (newOption.length > 0) {
+                            simplifiedItem.option = newOption
+                        }
+                    }
+                    return simplifiedItem
+                }),
+            }
+        }
+
+        return simplifiedMenuData
+    }
 
     const OptionComponents = ({ control, index, field }) => {
         const {
@@ -420,7 +512,19 @@ function CommonMenuForm({
                     }
                 }
             }
-            console.log('submitted data : ', result)
+            /**
+             * if user add option and did not write optionFor then it return "", and the default value for required is false. So it must be delete the filed
+             *
+             * this function is deleted the fields
+             * 1. option -> check if required is false then delete the field
+             * 2. option -> check if name is "" or undefined then delete the field
+             * 2. option -> check if optionFor is "" or undefined then delete the field
+             * 2. option.options -> check if name is "" or undefined then delete the field
+             * 2. option.options -> check if price is "" or undefined then delete the field
+             * */
+
+            const cleanedMenuData = cleanMenuData(result)
+            console.log('submitted data : ', JSON.stringify(cleanedMenuData))
             reset()
             handleCancel()
         } catch (e) {

@@ -2,7 +2,7 @@
 |-----------------------------------------
 | setting up ScreenWrapper for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: manager, Jane, 2024
+| @copyright: Manger, Jane, 2024
 |-----------------------------------------
 */
 import { ReactElement } from 'react'
