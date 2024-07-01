@@ -18,17 +18,17 @@ import { Link } from 'expo-router'
 
 export const settingData = [
  {
-  path: 'delivery-time',
+  path: 'Delivery Time',
   title: 'Delivery Time',
   icon: <MaterialIcons name="schedule" color="black" size={28} />,
  },
  {
-  path: 'mileage-cost',
+  path: 'Mileage Cost',
   title: 'Mileage Cost',
   icon: <Fontisto name="motorcycle" color="black" size={28} />,
  },
  {
-  path: 'time-table',
+  path: 'Time Table',
   title: 'Time Table',
   icon: <MaterialCommunityIcons name="timetable" color="black" size={28} />,
  },
