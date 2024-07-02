@@ -21,7 +21,8 @@ export type deliverySingleType = {
 export type initRenderType = {
     title: string
     renderData: renderType[]
-    renderMileageData: renderMileType[]
+    renderMileageData?: renderMileType[]
+    renderDiscountData?: renderMileType[]
 }
 export type renderType = { dayName: string; data: string }
 export type renderMileType = { mile: string; data: number | string }
@@ -31,4 +32,5 @@ export const initDefaultRender: initRenderType = {
     title: '',
     renderData: [],
     renderMileageData: [],
+    renderDiscountData: [],
 }

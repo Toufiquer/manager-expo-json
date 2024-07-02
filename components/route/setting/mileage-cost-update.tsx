@@ -40,7 +40,11 @@ export const MileageSchema = z.object({
 })
 
 const initDeleteUIData = { idx: 0, isOpenUI: false }
-const MileageCostUpdate = ({ data, setRender, setMileageRenderData }) => {
+const MileageCostUpdate = ({
+    data,
+    setRender,
+    setMileageRenderData,
+}) => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isDelete, setIsDelete] = useState(initDeleteUIData)
     const [process, setProcess] = useState(false)

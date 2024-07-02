@@ -32,6 +32,11 @@ export const settingData = [
   title: 'Time Table',
   icon: <MaterialCommunityIcons name="timetable" color="black" size={28} />,
  },
+ {
+  path: 'Discount',
+  title: 'Discount',
+  icon: <MaterialIcons name="discount" color="black" size={28} />,
+ },
 ]
 
 const SettingOverview = ({ navigation }) => {
