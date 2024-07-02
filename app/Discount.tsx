@@ -23,13 +23,13 @@ const Discount = () => {
  const { dcount } = screenData
 
  useEffect(() => {
-  const resultMile = []
+  const resultDiscount = []
   for (let d in dcount) {
    const dayName = dayjs().day(parseInt(d)).format('dddd')
-   const mile = dcount[d] || 'Closed'
-   resultMile.push({ day: dayName, data: mile })
+   const value = dcount[d] || 'Closed'
+   resultDiscount.push({ day: dayName, data: value })
   }
-  setDiscountRenderData([...resultMile])
+  setDiscountRenderData([...resultDiscount])
  }, [])
 
  const handleUpdate = (text) => {

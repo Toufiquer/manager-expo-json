@@ -31,11 +31,21 @@ export const DiscountSchema = z.object({
     data: z
         .object({
             dName: z.string(),
-            data: z.string().refine((value) => !isNaN(parseFloat(value)), {
-                message: 'Please provide a number',
-            }),
+            data: z
+                .string()
+                .refine((value) => !isNaN(parseFloat(value)), {
+                    message: 'Please provide a number',
+                })
+                .transform((value) => Math.min(parseFloat(value), 100)),
         })
-        .array(),
+        .array()
+        .superRefine((data) => {
+            // Additional validation for maximum data array size (optional)
+            if (data.length > 100) {
+                throw new Error('Maximum number of items in data array is 100')
+            }
+            return true
+        }),
 })
 
 const DiscountUpdate = ({ data, setRender, setDiscountRenderData }) => {
@@ -81,23 +91,20 @@ const DiscountUpdate = ({ data, setRender, setDiscountRenderData }) => {
     }
     const onSubmit = (data) => {
         const result = { ...settingData, dcount: convertData(data.data) }
-        console.log('')
-        console.log('')
-        console.log('')
-        console.log('')
+
         console.log('result data : ', JSON.stringify(result))
         setIsSubmitting(true)
         setRender({ ...initDefaultRender, renderDiscountData: result })
 
         // For update the screen
         const { dcount } = result
-        const resultMile = []
+        const resultDiscount = []
         for (let d in dcount) {
             const dayName = dayjs().day(parseInt(d)).format('dddd')
-            const mile = dcount[d] || 'Closed'
-            resultMile.push({ day: dayName, data: mile })
+            const discount = dcount[d]
+            resultDiscount.push({ day: dayName, data: discount })
         }
-        setDiscountRenderData([...resultMile])
+        setDiscountRenderData([...resultDiscount])
 
         setIsSubmitting(false)
     }
