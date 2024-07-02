@@ -5,17 +5,31 @@
 | @copyright: Manager, February, 2024
 |-----------------------------------------
 */
+import { StyleSheet } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import { Switch, Text, TouchableOpacity, View } from 'react-native'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 import DateTimePicker from '@react-native-community/datetimepicker'
-import { initDefaultRender } from '@/components/route/setting/setting/delivery'
-import { StyleSheet } from 'react-native'
+
+import {
+    renderType,
+    initRenderType,
+    initDefaultRender,
+} from '@/components/route/setting/setting/delivery'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
 
-const removeAmPm = (str) =>
+type generateDataType = {
+    value: {
+        startTime: string
+        endTime: string
+        isClosed: boolean
+    }
+    dayName: string
+}[]
+
+const removeAmPm = (str: string) =>
     str &&
     str
         .split('pm')
@@ -44,8 +58,14 @@ const CommonUpdateUi = ({
     setTimetableRenderData,
     renderUI,
     setDlvyTRenderData,
+}: {
+    renderUI: string
+    setDlvyTRenderData: Dispatch<{ data: string; dayName: string }[]>
+    setRender: Dispatch<SetStateAction<initRenderType>>
+    data: renderType[]
+    setTimetableRenderData?: React.Dispatch<{ data: string; dayName: string }[]>
 }) => {
-    const [allData, setAllData] = useState([])
+    const [allData, setAllData] = useState<generateDataType>([])
     const [singleUpdateData, setSingleUpdateData] = useState({
         ...initUpdateValue,
         whichTime: '',
@@ -106,7 +126,9 @@ const CommonUpdateUi = ({
                 dayName: curr.dayName,
             }))
             setRender({ ...initDefaultRender, renderData: submittingData })
-            setTimetableRenderData && setTimetableRenderData(submittingData)
+            if (setTimetableRenderData) {
+                setTimetableRenderData(submittingData)
+            }
         } else {
             const submittingData = allData.map((curr, idx) => ({
                 data: curr.value.isClosed
@@ -201,7 +223,7 @@ const CommonUpdateUi = ({
         }
     }
 
-    const handleDayValueChanged = (idx, value) => {
+    const handleDayValueChanged = (idx: number, value: any) => {
         const generateData = allData.map((curr, index) => ({
             ...curr,
             value: {
@@ -209,10 +231,14 @@ const CommonUpdateUi = ({
                 isClosed: index === idx ? value : curr.value.isClosed,
             },
         }))
-        setAllData(generateData)
+        setAllData(generateData as generateDataType)
     }
 
-    const handleSetUpdateData = (dayName, idx, whichTime) => {
+    const handleSetUpdateData = (
+        dayName: string,
+        idx: number,
+        whichTime: string
+    ) => {
         let [hours, minutes] = ['0', '0']
         if (!hours.toLocaleLowerCase().includes('closed')) {
             hours = data[idx].data?.split('-')[0]?.split(':')[0]

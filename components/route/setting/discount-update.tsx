@@ -5,25 +5,26 @@
 | @copyright: Manager, July, 2024
 |-----------------------------------------
 */
-import { z } from 'zod'
-import dayjs from 'dayjs'
-import Entypo from 'react-native-vector-icons/Entypo'
-import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
 import {
-    StyleSheet,
     Text,
     TextInput,
+    StyleSheet,
     TouchableOpacity,
     View,
 } from 'react-native'
+import { z } from 'zod'
+import dayjs from 'dayjs'
+import { useEffect, useState } from 'react'
+import Entypo from 'react-native-vector-icons/Entypo'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { initDefaultRender } from '@/components/route/setting/setting/delivery'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
+import { initDefaultRender } from '@/components/route/setting/setting/delivery'
 
 import settingData from '@/assets/json/setting.json'
+
 const BorderStyle =
     'w-full rounded border border-gray-400 px-3 py-2 leading-tight text-gray-800'
 
@@ -92,7 +93,6 @@ const DiscountUpdate = ({ data, setRender, setDiscountRenderData }) => {
     const onSubmit = (data) => {
         const result = { ...settingData, dcount: convertData(data.data) }
 
-        console.log('result data : ', JSON.stringify(result))
         setIsSubmitting(true)
         setRender({ ...initDefaultRender, renderDiscountData: result })
 

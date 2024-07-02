@@ -524,7 +524,6 @@ function CommonMenuForm({
              * */
 
             const cleanedMenuData = cleanMenuData(result)
-            console.log('submitted data : ', JSON.stringify(cleanedMenuData))
             reset()
             handleCancel()
         } catch (e) {

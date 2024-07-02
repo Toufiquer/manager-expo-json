@@ -2,7 +2,7 @@
 |-----------------------------------------
 | setting up Discount for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: Toufiquer, July, 2024
+| @copyright: Manager, July, 2024
 |-----------------------------------------
 */
 import dayjs from 'dayjs'
@@ -11,14 +11,18 @@ import Feather from 'react-native-vector-icons/Feather'
 import { Text, TouchableOpacity, View } from 'react-native'
 
 import screenData from '@/assets/json/setting.json'
-import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
-import { initDefaultRender } from '@/components/route/setting/setting/delivery'
-
 import DiscountUpdate from '@/components/route/setting/discount-update'
+import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
+import {
+ initDefaultRender,
+ renderDiscountType,
+} from '@/components/route/setting/setting/delivery'
 
 const Discount = () => {
  const [render, setRender] = useState(initDefaultRender)
- const [discountRenderData, setDiscountRenderData] = useState([])
+ const [discountRenderData, setDiscountRenderData] = useState<
+  renderDiscountType[]
+ >([])
 
  const { dcount } = screenData
 
@@ -32,7 +36,7 @@ const Discount = () => {
   setDiscountRenderData([...resultDiscount])
  }, [])
 
- const handleUpdate = (text) => {
+ const handleUpdate = (text: string) => {
   if (text === 'discount') {
    setRender({
     title: 'discount',

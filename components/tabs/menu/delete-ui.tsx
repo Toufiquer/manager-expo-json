@@ -76,7 +76,6 @@ function DeleteUI({ handleCancel, currentUIData }) {
                 }
             }
         }
-        console.log(' submission data: ', JSON.stringify(result))
         setProcess(false)
         handleCancel()
     }

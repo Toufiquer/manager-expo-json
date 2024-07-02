@@ -22,10 +22,11 @@ export type initRenderType = {
     title: string
     renderData: renderType[]
     renderMileageData?: renderMileType[]
-    renderDiscountData?: renderMileType[]
+    renderDiscountData?: renderDiscountType[]
 }
 export type renderType = { dayName: string; data: string }
 export type renderMileType = { mile: string; data: number | string }
+export type renderDiscountType = { day: string; data: any }
 export type dispatchSetRender = Dispatch<SetStateAction<initRenderType>>
 
 export const initDefaultRender: initRenderType = {

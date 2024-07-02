@@ -12,14 +12,19 @@ import Feather from 'react-native-vector-icons/Feather'
 import { Text, TouchableOpacity, View } from 'react-native'
 
 import screenData from '@/assets/json/setting.json'
+
+import CommonUpdateUi from '@/components/route/setting/common-update-ui'
 import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
 import { initDefaultRender } from '@/components/route/setting/setting/delivery'
 
-import CommonUpdateUi from '@/components/route/setting/common-update-ui'
-
-const DeliveryTime = ({ navigation }) => {
+const DeliveryTime = () => {
  const [render, setRender] = useState(initDefaultRender)
- const [dlvyTRenderData, setDlvyTRenderData] = useState([])
+ const [dlvyTRenderData, setDlvyTRenderData] = useState<
+  {
+   dayName: string
+   data: any
+  }[]
+ >([])
  const { dlvyT } = screenData
 
  useEffect(() => {
@@ -31,12 +36,12 @@ const DeliveryTime = ({ navigation }) => {
   }
   setDlvyTRenderData([...result])
  }, [])
- const handleUpdate = (text) => {
+ const handleUpdate = (text: string) => {
   if (text === 'delivery time') {
    setRender({
     title: 'delivery time',
     renderData: dlvyTRenderData,
-    renderMileageData: [],
+    // renderMileageData: [],
    })
   }
  }

@@ -5,23 +5,23 @@
 | @copyright: Manager, July, 2024
 |-----------------------------------------
 */
+import {
+    View,
+    Text,
+    TextInput,
+    StyleSheet,
+    TouchableOpacity,
+} from 'react-native'
 import { z } from 'zod'
+import { useEffect, useState } from 'react'
 import Entypo from 'react-native-vector-icons/Entypo'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { initDefaultRender } from '@/components/route/setting/setting/delivery'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
+import { initDefaultRender } from '@/components/route/setting/setting/delivery'
 
 const BorderStyle =
     'w-full rounded border border-gray-400 px-3 py-2 leading-tight text-gray-800'
@@ -44,6 +44,10 @@ const MileageCostUpdate = ({
     data,
     setRender,
     setMileageRenderData,
+}: {
+    data: any
+    setRender: any
+    setMileageRenderData: any
 }) => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isDelete, setIsDelete] = useState(initDeleteUIData)

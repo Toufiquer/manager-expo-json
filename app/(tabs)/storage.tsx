@@ -29,8 +29,6 @@ export default function TabTwoScreen() {
           const { content } = response;
           delete content.a;
           delete content.n;
-          console.log("fetch content : ", JSON.stringify(content));
-          // storage.set("user.menu", JSON.stringify(content));
         } else {
           console.log(" something went wrong [fetch] plz try again");
         }
@@ -53,10 +51,6 @@ export default function TabTwoScreen() {
   };
   const handleGetFullStore = async () => {
     const data = await readData();
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("");
     console.log(" get all data : ", data);
     console.log(" get all data length: ", data.length);
   };

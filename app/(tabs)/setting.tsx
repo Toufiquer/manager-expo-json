@@ -7,14 +7,14 @@
 */
 
 import { useState } from 'react'
+import { Link } from 'expo-router'
 import Fontisto from 'react-native-vector-icons/Fontisto'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Text, TouchableOpacity, View, Switch, StyleSheet } from 'react-native'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
-import { Link } from 'expo-router'
+import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
 
 export const settingData = [
  {
@@ -39,7 +39,7 @@ export const settingData = [
  },
 ]
 
-const SettingOverview = ({ navigation }) => {
+const SettingOverview = () => {
  const [isOffline, setIsOffline] = useState(false)
  const [dlvyStatus, setDlvyStatus] = useState(true)
 
@@ -156,6 +156,7 @@ const SettingOverview = ({ navigation }) => {
   </ScreenWrapper>
  )
 }
+
 const styles = StyleSheet.create({
  fontsMulishBlack: {
   fontFamily: Fonts.MulishRegular,
