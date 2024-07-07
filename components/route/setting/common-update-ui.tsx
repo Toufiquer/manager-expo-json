@@ -5,7 +5,7 @@
 | @copyright: Manager, February, 2024
 |-----------------------------------------
 */
-import { StyleSheet } from 'react-native'
+import { Modal, StyleSheet } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import { Switch, Text, TouchableOpacity, View } from 'react-native'
@@ -19,6 +19,7 @@ import {
     initDefaultRender,
 } from '@/components/route/setting/setting/delivery'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
+import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
 
 type generateDataType = {
     value: {
@@ -621,7 +622,11 @@ const CommonUpdateUi = ({
             </View>
         )
 
-    return renderUpdateUI
+    return (
+        <Modal animationType="slide">
+            <ScreenWrapper>{renderUpdateUI}</ScreenWrapper>
+        </Modal>
+    )
 }
 const styles = StyleSheet.create({
     fontsMulishBlack: {

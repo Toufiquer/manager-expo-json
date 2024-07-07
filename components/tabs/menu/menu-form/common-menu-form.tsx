@@ -10,6 +10,7 @@ import { useEffect } from 'react'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { useForm, Controller, useFieldArray } from 'react-hook-form'
 import {
+    Modal,
     StyleSheet,
     Switch,
     Text,
@@ -24,6 +25,7 @@ import { menuItemType, storeType } from './../menu'
 
 import menu from '@/assets/json/menu.json'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
+import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
 
 export const newItemSchema = z.object({
     item: z
@@ -531,162 +533,174 @@ function CommonMenuForm({
         }
     }
     return (
-        <View className="fixed left-0 top-0 min-h-[88vh] w-full ">
-            <View className="p-4">
-                <View className="flex w-full flex-row items-end justify-between pb-6">
-                    <Text
-                        style={styles.fontsMulishBlack}
-                        className="max-w-[80%] text-2xl font-extrabold text-gray-900"
-                    >
-                        {isUpdate ? 'Update' : 'Add a new one'}
-                    </Text>
-                    <View className="flex items-start justify-start">
-                        <TouchableOpacity onPress={() => handleCancel()}>
-                            <Entypo name="cross" color="red" size={30} />
+        <Modal animationType="slide">
+            <ScreenWrapper>
+                <View className="fixed left-0 top-0 min-h-[88vh] w-full ">
+                    <View className="p-4">
+                        <View className="flex w-full flex-row items-end justify-between pb-6">
+                            <Text
+                                style={styles.fontsMulishBlack}
+                                className="max-w-[80%] text-2xl font-extrabold text-gray-900"
+                            >
+                                {isUpdate ? 'Update' : 'Add a new one'}
+                            </Text>
+                            <View className="flex items-start justify-start">
+                                <TouchableOpacity
+                                    onPress={() => handleCancel()}
+                                >
+                                    <Entypo
+                                        name="cross"
+                                        color="red"
+                                        size={30}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View className="flex w-full ">
+                            <View>
+                                <View>
+                                    <Text
+                                        style={styles.fontsMulishBlack}
+                                        className="mb-1 text-sm text-gray-700"
+                                    >
+                                        Item Name
+                                    </Text>
+                                    <Controller
+                                        control={control}
+                                        render={({
+                                            field: { onChange, onBlur, value },
+                                        }) => (
+                                            <TextInput
+                                                placeholder="First name"
+                                                className={BorderStyle}
+                                                onBlur={onBlur}
+                                                onChangeText={onChange}
+                                                value={value}
+                                            />
+                                        )}
+                                        name="item"
+                                    />
+                                    {errors.item && (
+                                        <Text className="text-rose-500">
+                                            {errors.item.message}{' '}
+                                        </Text>
+                                    )}
+                                    <Text
+                                        style={styles.fontsMulishBlack}
+                                        className="mb-1 mt-2 text-sm text-gray-700"
+                                    >
+                                        Item Price
+                                    </Text>
+                                    <Controller
+                                        control={control}
+                                        render={({
+                                            field: { onChange, onBlur, value },
+                                        }) => (
+                                            <TextInput
+                                                className={BorderStyle}
+                                                placeholder="0"
+                                                onBlur={onBlur}
+                                                keyboardType="decimal-pad"
+                                                onChangeText={(e) =>
+                                                    onChange(e)
+                                                }
+                                                value={value}
+                                            />
+                                        )}
+                                        name="price"
+                                    />
+                                    {errors.price && (
+                                        <Text className="text-rose-500">
+                                            {errors.price.message}{' '}
+                                        </Text>
+                                    )}
+                                    <Text
+                                        style={styles.fontsMulishBlack}
+                                        className="mb-1 mt-2 text-sm text-gray-700"
+                                    >
+                                        Item Info
+                                    </Text>
+                                    <Controller
+                                        control={control}
+                                        render={({
+                                            field: { onChange, onBlur, value },
+                                        }) => (
+                                            <TextInput
+                                                placeholder="Item Info"
+                                                className={BorderStyle}
+                                                onBlur={onBlur}
+                                                onChangeText={onChange}
+                                                numberOfLines={8}
+                                                textAlignVertical="top"
+                                                value={value}
+                                            />
+                                        )}
+                                        name="info"
+                                    />
+                                    {errors.info && (
+                                        <Text className="text-rose-500">
+                                            {errors.info.message}{' '}
+                                        </Text>
+                                    )}
+                                </View>
+                                <View className="my-4 flex w-full flex-row items-center justify-between ">
+                                    <Text
+                                        style={styles.fontsMulishBlack}
+                                        className="text-sm text-gray-900"
+                                    >
+                                        Option
+                                    </Text>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            append({
+                                                name: '',
+                                                options: [],
+                                            })
+                                        }
+                                    >
+                                        <View className="flex items-center justify-center">
+                                            <Entypo
+                                                name="plus"
+                                                color="blue"
+                                                size={25}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                    <View className="h-[40px] w-full" />
+                    {fields.map((field, index) => (
+                        <View key={field.id}>
+                            <OptionComponents
+                                key={field.id}
+                                {...{ control, index, field }}
+                            />
+                        </View>
+                    ))}
+                    <View className="h-[100px] w-full" />
+                    <View className="absolute bottom-0 w-full px-4">
+                        <TouchableOpacity
+                            onPress={handleSubmit(onSubmit)}
+                            disabled={isSubmitting}
+                            className={`"mt-2 " w-full rounded-xl ${isSubmitting ? 'bg-blue-200' : 'bg-blue-500'}`}
+                        >
+                            <Text
+                                style={styles.fontsMulishBlack}
+                                className="p-2 text-center text-xl font-semibold text-white"
+                            >
+                                {isSubmitting
+                                    ? 'Processing...'
+                                    : isUpdate
+                                      ? 'Update'
+                                      : 'Add'}
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View className="flex w-full ">
-                    <View>
-                        <View>
-                            <Text
-                                style={styles.fontsMulishBlack}
-                                className="mb-1 text-sm text-gray-700"
-                            >
-                                Item Name
-                            </Text>
-                            <Controller
-                                control={control}
-                                render={({
-                                    field: { onChange, onBlur, value },
-                                }) => (
-                                    <TextInput
-                                        placeholder="First name"
-                                        className={BorderStyle}
-                                        onBlur={onBlur}
-                                        onChangeText={onChange}
-                                        value={value}
-                                    />
-                                )}
-                                name="item"
-                            />
-                            {errors.item && (
-                                <Text className="text-rose-500">
-                                    {errors.item.message}{' '}
-                                </Text>
-                            )}
-                            <Text
-                                style={styles.fontsMulishBlack}
-                                className="mb-1 mt-2 text-sm text-gray-700"
-                            >
-                                Item Price
-                            </Text>
-                            <Controller
-                                control={control}
-                                render={({
-                                    field: { onChange, onBlur, value },
-                                }) => (
-                                    <TextInput
-                                        className={BorderStyle}
-                                        placeholder="0"
-                                        onBlur={onBlur}
-                                        keyboardType="decimal-pad"
-                                        onChangeText={(e) => onChange(e)}
-                                        value={value}
-                                    />
-                                )}
-                                name="price"
-                            />
-                            {errors.price && (
-                                <Text className="text-rose-500">
-                                    {errors.price.message}{' '}
-                                </Text>
-                            )}
-                            <Text
-                                style={styles.fontsMulishBlack}
-                                className="mb-1 mt-2 text-sm text-gray-700"
-                            >
-                                Item Info
-                            </Text>
-                            <Controller
-                                control={control}
-                                render={({
-                                    field: { onChange, onBlur, value },
-                                }) => (
-                                    <TextInput
-                                        placeholder="Item Info"
-                                        className={BorderStyle}
-                                        onBlur={onBlur}
-                                        onChangeText={onChange}
-                                        numberOfLines={8}
-                                        textAlignVertical="top"
-                                        value={value}
-                                    />
-                                )}
-                                name="info"
-                            />
-                            {errors.info && (
-                                <Text className="text-rose-500">
-                                    {errors.info.message}{' '}
-                                </Text>
-                            )}
-                        </View>
-                        <View className="my-4 flex w-full flex-row items-center justify-between ">
-                            <Text
-                                style={styles.fontsMulishBlack}
-                                className="text-sm text-gray-900"
-                            >
-                                Option
-                            </Text>
-                            <TouchableOpacity
-                                onPress={() =>
-                                    append({
-                                        name: '',
-                                        options: [],
-                                    })
-                                }
-                            >
-                                <View className="flex items-center justify-center">
-                                    <Entypo
-                                        name="plus"
-                                        color="blue"
-                                        size={25}
-                                    />
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </View>
-            <View className="h-[40px] w-full" />
-            {fields.map((field, index) => (
-                <View key={field.id}>
-                    <OptionComponents
-                        key={field.id}
-                        {...{ control, index, field }}
-                    />
-                </View>
-            ))}
-            <View className="h-[100px] w-full" />
-            <View className="absolute bottom-0 w-full px-4">
-                <TouchableOpacity
-                    onPress={handleSubmit(onSubmit)}
-                    disabled={isSubmitting}
-                    className={`"mt-2 " w-full rounded-xl ${isSubmitting ? 'bg-blue-200' : 'bg-blue-500'}`}
-                >
-                    <Text
-                        style={styles.fontsMulishBlack}
-                        className="p-2 text-center text-xl font-semibold text-white"
-                    >
-                        {isSubmitting
-                            ? 'Processing...'
-                            : isUpdate
-                              ? 'Update'
-                              : 'Add'}
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+            </ScreenWrapper>
+        </Modal>
     )
 }
 const styles = StyleSheet.create({
