@@ -535,7 +535,7 @@ function CommonMenuForm({
     return (
         <Modal animationType="slide">
             <ScreenWrapper>
-                <View className="fixed left-0 top-0 min-h-[88vh] w-full ">
+                <View className="fixed left-0 top-0 min-h-[88vh] w-full mb-4">
                     <View className="p-4">
                         <View className="flex w-full flex-row items-end justify-between pb-6">
                             <Text

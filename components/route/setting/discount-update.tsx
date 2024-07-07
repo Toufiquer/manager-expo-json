@@ -116,7 +116,7 @@ const DiscountUpdate = ({ data, setRender, setDiscountRenderData }) => {
             <View className="flex w-full flex-row items-end justify-between">
                 <Text
                     style={styles.fontsMulishBlack}
-                    className="max-w-[80%] text-2xl font-semibold text-gray-800"
+                    className="max-w-[80%] pl-1 text-2xl font-extrabold text-slate-800"
                 >
                     Update Discount
                 </Text>
@@ -133,7 +133,7 @@ const DiscountUpdate = ({ data, setRender, setDiscountRenderData }) => {
                         <View className="w-[35%]">
                             <Text
                                 style={styles.fontsMulishBlack}
-                                className="text-sm font-extrabold  text-gray-900"
+                                className="text-2xl font-bold  text-gray-900"
                             >
                                 Day
                             </Text>
@@ -141,7 +141,7 @@ const DiscountUpdate = ({ data, setRender, setDiscountRenderData }) => {
                         <View className="w-[45%]">
                             <Text
                                 style={styles.fontsMulishBlack}
-                                className="text-sm font-extrabold  text-gray-900"
+                                className="text-2xl font-bold  text-gray-900"
                             >
                                 Discount ({`\u0025`})
                             </Text>

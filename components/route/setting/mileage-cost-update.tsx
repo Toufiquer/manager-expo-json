@@ -93,7 +93,7 @@ const MileageCostUpdate = ({
             <View className="flex w-full flex-row items-end justify-between">
                 <Text
                     style={styles.fontsMulishBlack}
-                    className="max-w-[80%] text-2xl font-semibold text-gray-800"
+                    className="max-w-[80%] text-2xl font-extrabold text-slate-800"
                 >
                     Update mileage cost
                 </Text>

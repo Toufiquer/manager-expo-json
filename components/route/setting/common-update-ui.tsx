@@ -266,7 +266,7 @@ const CommonUpdateUi = ({
                             <View className="flex w-full flex-row items-end justify-between">
                                 <Text
                                     style={styles.fontsMulishBlack}
-                                    className="max-w-[80%] pl-4 text-xl font-semibold text-slate-800"
+                                    className="max-w-[80%] pl-4 text-2xl font-extrabold text-slate-800"
                                 >
                                     Update Time Table
                                 </Text>
@@ -447,7 +447,7 @@ const CommonUpdateUi = ({
                             <View className="mb-4 flex w-full flex-row items-end justify-between">
                                 <Text
                                     style={styles.fontsMulishRegular}
-                                    className="max-w-[80%] pl-4 text-xl font-semibold text-slate-800"
+                                    className="max-w-[80%] pl-3 text-2xl font-extrabold text-slate-800"
                                 >
                                     Update Delivery Time
                                 </Text>
