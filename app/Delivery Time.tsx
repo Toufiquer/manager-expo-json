@@ -223,7 +223,7 @@ const DeliveryTime = () => {
  }
 
  return (
-  <Modal onRequestClose={handleCloseModal}>
+  <Modal onRequestClose={handleCloseModal} animationType="slide">
    <ScreenWrapper>
     <View className="fixed left-0 top-0 z-50 min-h-[680px] w-full bg-white p-2">
      <View className="relative h-full w-full">
