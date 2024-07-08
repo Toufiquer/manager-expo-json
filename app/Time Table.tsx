@@ -17,7 +17,7 @@ import {
  View,
 } from 'react-native'
 
-import screenData from '@/assets/json/setting.json'
+import settingScreenData from '@/assets/json/setting.json'
 import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
 
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -61,7 +61,7 @@ const initUpdateValue = {
 const TimeTable = () => {
  const [timetableRenderData, setTimetableRenderData] = useState([])
 
- const { timetable } = screenData
+ const { timetable } = settingScreenData
 
  useEffect(() => {
   const result = []
@@ -110,16 +110,6 @@ const TimeTable = () => {
     result = i
    }
   }
-  console.log(' convert : ', dayName, ' => ', result)
-  console.log(' : ')
-  console.log(' : ')
-  console.log(' original  0 : ', dayjs().day(0).format('dddd'))
-  console.log(' original  1 : ', dayjs().day(1).format('dddd'))
-  console.log(' original  2 : ', dayjs().day(2).format('dddd'))
-  console.log(' original  3 : ', dayjs().day(3).format('dddd'))
-  console.log(' original  4 : ', dayjs().day(4).format('dddd'))
-  console.log(' original  5 : ', dayjs().day(5).format('dddd'))
-  console.log(' original  6 : ', dayjs().day(6).format('dddd'))
 
   return result
  }
@@ -127,10 +117,6 @@ const TimeTable = () => {
   const result: any = {}
   array.forEach((item: any) => {
    const idx = getDayJsDayIndex(item.dayName)
-   console.log(' **')
-   console.log(' **')
-   console.log(' idx, dayName => ', idx, item.dayName)
-   console.log(' **')
    result[idx] = item.data
   })
   return result
@@ -145,7 +131,7 @@ const TimeTable = () => {
    dayName: curr.dayName,
   }))
   const result = {
-   ...timetable,
+   ...settingScreenData,
    timetable: convertArrayToObject(submittingData),
   }
   console.log(' result : ', result)

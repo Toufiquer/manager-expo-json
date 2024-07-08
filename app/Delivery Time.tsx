@@ -150,16 +150,6 @@ const DeliveryTime = () => {
     result = i
    }
   }
-  console.log(' convert : ', dayName, ' => ', result)
-  console.log(' : ')
-  console.log(' : ')
-  console.log(' original  0 : ', dayjs().day(0).format('dddd'))
-  console.log(' original  1 : ', dayjs().day(1).format('dddd'))
-  console.log(' original  2 : ', dayjs().day(2).format('dddd'))
-  console.log(' original  3 : ', dayjs().day(3).format('dddd'))
-  console.log(' original  4 : ', dayjs().day(4).format('dddd'))
-  console.log(' original  5 : ', dayjs().day(5).format('dddd'))
-  console.log(' original  6 : ', dayjs().day(6).format('dddd'))
 
   return result
  }
@@ -167,10 +157,6 @@ const DeliveryTime = () => {
   const result: any = {}
   array.forEach((item: any) => {
    const idx = getDayJsDayIndex(item.dayName)
-   console.log(' **')
-   console.log(' **')
-   console.log(' idx, dayName => ', idx, item.dayName)
-   console.log(' **')
    result[idx] = item.data
   })
   return result
