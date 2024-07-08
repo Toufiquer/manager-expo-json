@@ -1,6 +1,6 @@
 /*
 |-----------------------------------------
-| setting up MileageCost for the App
+| setting up TimeTableCopy for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
 | @copyright: Toufiquer, July, 2024
 |-----------------------------------------
@@ -9,13 +9,13 @@
 import { Modal, Text } from 'react-native'
 import { View } from 'react-native'
 
-const MileageCost = () => {
+const TimeTableCopy = () => {
  return (
   <Modal>
    <View>
-    <Text>Mileage cost</Text>
+    <Text>Time Table</Text>
    </View>
   </Modal>
  )
 }
-export default MileageCost
+export default TimeTableCopy
