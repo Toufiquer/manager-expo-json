@@ -2,7 +2,7 @@
 |-----------------------------------------
 | setting up Menu for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: Toufiquer, April, 2024
+| @copyright: Manager-Expo, July, 2024
 |-----------------------------------------
 */
 export type optionsType = { name: string; price?: string };

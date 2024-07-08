@@ -2,7 +2,7 @@
 |-----------------------------------------
 | setting up Common Menu Form for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: Manager, June, 2024
+| @copyright: Manager-Expo, July, 2024
 |-----------------------------------------
 */
 import { z } from 'zod'

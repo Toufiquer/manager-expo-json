@@ -2,29 +2,29 @@
 |-----------------------------------------
 | setting up TimeTableCopy for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: Toufiquer, July, 2024
+| @copyright: Manager-Expo, July, 2024
 |-----------------------------------------
 */
-
-import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
 import {
- Modal,
- StyleSheet,
- Switch,
  Text,
- TouchableOpacity,
  View,
+ Modal,
+ Switch,
+ StyleSheet,
+ TouchableOpacity,
 } from 'react-native'
-
-import settingScreenData from '@/assets/json/setting.json'
-import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
+import dayjs from 'dayjs'
+import { useNavigation } from 'expo-router'
+import { useEffect, useState } from 'react'
+import Entypo from 'react-native-vector-icons/Entypo'
+import Feather from 'react-native-vector-icons/Feather'
 
 import DateTimePicker from '@react-native-community/datetimepicker'
+
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
-import Entypo from 'react-native-vector-icons/Entypo'
-import { useNavigation } from 'expo-router'
-import Feather from 'react-native-vector-icons/Feather'
+import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
+
+import settingScreenData from '@/assets/json/setting.json'
 
 type generateDataType = {
  value: {

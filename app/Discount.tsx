@@ -2,37 +2,31 @@
 |-----------------------------------------
 | setting up Discount for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: Toufiquer, July, 2024
+| @copyright: Manager-Expo, July, 2024
 |-----------------------------------------
 */
 
-import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
-import Feather from 'react-native-vector-icons/Feather'
 import {
- Modal,
- StyleSheet,
  Text,
- TouchableOpacity,
  View,
+ Modal,
  TextInput,
+ StyleSheet,
+ TouchableOpacity,
 } from 'react-native'
-
-import screenData from '@/assets/json/setting.json'
-import DiscountUpdate from '@/components/route/setting/discount-update'
-import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
-import {
- initDefaultRender,
- renderDiscountType,
-} from '@/components/route/setting/setting/delivery'
-import { Link, useNavigation } from 'expo-router'
-import { Fonts } from '@/components/utils/Fonts/CustomFonts'
-
 import { z } from 'zod'
+import dayjs from 'dayjs'
+import { useNavigation } from 'expo-router'
+import { useEffect, useState } from 'react'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+
+import screenData from '@/assets/json/setting.json'
+import { Fonts } from '@/components/utils/Fonts/CustomFonts'
+import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
+import { renderDiscountType } from '@/components/route/setting/setting/delivery'
 
 import settingData from '@/assets/json/setting.json'
 

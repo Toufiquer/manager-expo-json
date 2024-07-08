@@ -2,7 +2,7 @@
 |-----------------------------------------
 | setting up Store for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: Toufiquer, June, 2024
+| @copyright: Manager-Expo, July, 2024
 |-----------------------------------------
 */
 

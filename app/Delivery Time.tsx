@@ -2,14 +2,14 @@
 |-----------------------------------------
 | setting up DeliveryTime for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: Toufiquer, July, 2024
+| @copyright: Manager-Expo, July, 2024
 |-----------------------------------------
 */
 
 import dayjs from 'dayjs'
 import { View } from 'react-native'
 import { useEffect, useState } from 'react'
-import {  useNavigation } from 'expo-router'
+import { useNavigation } from 'expo-router'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import { Modal, StyleSheet, Switch, Text, TouchableOpacity } from 'react-native'

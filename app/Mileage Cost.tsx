@@ -2,31 +2,30 @@
 |-----------------------------------------
 | setting up MileageCost for the App
 | @author: Toufiquer Rahman<toufiquer.0@gmail.com>
-| @copyright: Toufiquer, July, 2024
+| @copyright: Manager-Expo, July, 2024
 |-----------------------------------------
 */
-
-import settingScreenData from '@/assets/json/setting.json'
 
 import {
  View,
  Text,
+ Modal,
  TextInput,
  StyleSheet,
  TouchableOpacity,
- Modal,
 } from 'react-native'
 import { z } from 'zod'
 import { useEffect, useState } from 'react'
+import { useNavigation } from 'expo-router'
 import Entypo from 'react-native-vector-icons/Entypo'
+import settingScreenData from '@/assets/json/setting.json'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import { Control, Controller, useFieldArray, useForm } from 'react-hook-form'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
 import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
-import { useNavigation } from 'expo-router'
 
 const BorderStyle =
  'w-full rounded border border-gray-400 px-3 py-2 leading-tight text-gray-800'
