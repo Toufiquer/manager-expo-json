@@ -101,6 +101,7 @@ const MileageCost = () => {
    mileage: convertArrayToObject(submitData.data),
   }
   console.log('result : ', result)
+  handleCloseModal()
   setIsSubmitting(false)
  }
  const handleDeleteCancel = () => setIsDelete(initDeleteUIData)

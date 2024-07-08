@@ -9,7 +9,7 @@
 import dayjs from 'dayjs'
 import { View } from 'react-native'
 import { useEffect, useState } from 'react'
-import { Link, useNavigation } from 'expo-router'
+import {  useNavigation } from 'expo-router'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import { Modal, StyleSheet, Switch, Text, TouchableOpacity } from 'react-native'
