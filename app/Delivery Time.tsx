@@ -7,16 +7,17 @@
 */
 
 import dayjs from 'dayjs'
-import { Link, useNavigation } from 'expo-router'
-import { useEffect, useState } from 'react'
-import { Modal, StyleSheet, Switch, Text, TouchableOpacity } from 'react-native'
 import { View } from 'react-native'
+import { useEffect, useState } from 'react'
+import { Link, useNavigation } from 'expo-router'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
+import { Modal, StyleSheet, Switch, Text, TouchableOpacity } from 'react-native'
+
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 import settingScreenData from '@/assets/json/setting.json'
 import { Fonts } from '@/components/utils/Fonts/CustomFonts'
-import DateTimePicker from '@react-native-community/datetimepicker'
 import ScreenWrapper from '@/components/utils/screenWrapper/screen-wrapper'
 
 type generateDataType = {
@@ -52,6 +53,14 @@ const initUpdateValue = {
 }
 
 const DeliveryTime = () => {
+ const [date, setDate] = useState(newDate)
+ const [isSubmitting, setIsSubmitting] = useState(false)
+ const [allData, setAllData] = useState<generateDataType>([])
+ const [singleUpdateData, setSingleUpdateData] = useState({
+  ...initUpdateValue,
+  whichTime: '',
+  idx: 0,
+ })
  const [dlvyTRenderData, setDlvyTRenderData] = useState<
   {
    dayName: string
@@ -59,14 +68,8 @@ const DeliveryTime = () => {
   }[]
  >([])
 
- const [allData, setAllData] = useState<generateDataType>([])
- const [singleUpdateData, setSingleUpdateData] = useState({
-  ...initUpdateValue,
-  whichTime: '',
-  idx: 0,
- })
- const [isSubmitting, setIsSubmitting] = useState(false)
- const [date, setDate] = useState(newDate)
+ const { dlvyT } = settingScreenData
+ const navigation = useNavigation()
 
  useEffect(() => {
   const generateData = dlvyTRenderData.map((curr, idx) => {
@@ -84,57 +87,47 @@ const DeliveryTime = () => {
   setAllData(generateData)
  }, [dlvyTRenderData])
 
- const onSubmit = () => {
-  setIsSubmitting(true)
-  {
-   const updateData = allData.map((curr, idx) => ({
-    data: curr.value.isClosed
-     ? 'Closed'
-     : `${curr.value.startTime} - ${curr.value.endTime}`,
-    dayName: curr.dayName,
-   }))
-   const result = { ...settingScreenData }
-   // result.dlvyT = updateData
-   console.log('result: ', result)
+ useEffect(() => {
+  const result = []
+  for (let d in dlvyT) {
+   const dayName = dayjs().day(parseInt(d)).format('dddd')
+   const dlvyTime = dlvyT[d] || 'Closed'
+   result.push({ dayName: dayName, data: dlvyTime })
   }
-
-  setIsSubmitting(false)
-  handleCloseModal()
- }
+  setDlvyTRenderData([...result])
+ }, [])
 
  const onChange = (event, selectedDate) => {
   if (event.type === 'set') {
-   if (event.type === 'set') {
-    const currentDate = selectedDate || new Date()
-    let tempDate = new Date(currentDate)
-    let hours = tempDate.getHours()
-    let minutes = tempDate.getMinutes()
-    let formattedHours = hours < 10 ? '0' + hours : hours
-    let formattedMinutes = minutes < 10 ? '0' + minutes : minutes
-    let fTime = `${formattedHours}: ${formattedMinutes}`
-    const generateData = allData.map((curr, index) => ({
-     ...curr,
-     value: {
-      startTime:
-       singleUpdateData.idx === index &&
-       singleUpdateData.whichTime === 'start time'
-        ? fTime
-        : curr.value.startTime,
-      endTime:
-       singleUpdateData.idx === index &&
-       singleUpdateData.whichTime === 'end time'
-        ? fTime
-        : curr.value.endTime,
-      isClosed: singleUpdateData.idx === index ? false : curr.value.isClosed,
-     },
-    }))
-    setAllData(generateData)
-    setSingleUpdateData({
-     ...initUpdateValue,
-     whichTime: '',
-     idx: 0,
-    })
-   }
+   const currentDate = selectedDate || new Date()
+   let tempDate = new Date(currentDate)
+   let hours = tempDate.getHours()
+   let minutes = tempDate.getMinutes()
+   let formattedHours = hours < 10 ? '0' + hours : hours
+   let formattedMinutes = minutes < 10 ? '0' + minutes : minutes
+   let fTime = `${formattedHours}:${formattedMinutes}`
+   const generateData = allData.map((curr, index) => ({
+    ...curr,
+    value: {
+     startTime:
+      singleUpdateData.idx === index &&
+      singleUpdateData.whichTime === 'start time'
+       ? fTime
+       : curr.value.startTime,
+     endTime:
+      singleUpdateData.idx === index &&
+      singleUpdateData.whichTime === 'end time'
+       ? fTime
+       : curr.value.endTime,
+     isClosed: singleUpdateData.idx === index ? false : curr.value.isClosed,
+    },
+   }))
+   setAllData(generateData)
+   setSingleUpdateData({
+    ...initUpdateValue,
+    whichTime: '',
+    idx: 0,
+   })
   }
  }
 
@@ -147,6 +140,40 @@ const DeliveryTime = () => {
    },
   }))
   setAllData(generateData as generateDataType)
+ }
+
+ const getDayJsDayIndex = (dayName: string) => {
+  let result = 0
+  for (let i = 0; i < 7; i++) {
+   const getDayName = dayjs().day(i).format('dddd')
+   if (getDayName.toLocaleLowerCase() === dayName.toLocaleLowerCase()) {
+    result = i
+   }
+  }
+  console.log(' convert : ', dayName, ' => ', result)
+  console.log(' : ')
+  console.log(' : ')
+  console.log(' original  0 : ', dayjs().day(0).format('dddd'))
+  console.log(' original  1 : ', dayjs().day(1).format('dddd'))
+  console.log(' original  2 : ', dayjs().day(2).format('dddd'))
+  console.log(' original  3 : ', dayjs().day(3).format('dddd'))
+  console.log(' original  4 : ', dayjs().day(4).format('dddd'))
+  console.log(' original  5 : ', dayjs().day(5).format('dddd'))
+  console.log(' original  6 : ', dayjs().day(6).format('dddd'))
+
+  return result
+ }
+ const convertArrayToObject = (array) => {
+  const result: any = {}
+  array.forEach((item: any) => {
+   const idx = getDayJsDayIndex(item.dayName)
+   console.log(' **')
+   console.log(' **')
+   console.log(' idx, dayName => ', idx, item.dayName)
+   console.log(' **')
+   result[idx] = item.data
+  })
+  return result
  }
 
  const handleSetUpdateData = (
@@ -171,22 +198,30 @@ const DeliveryTime = () => {
   })
  }
 
- const { dlvyT } = settingScreenData
-
- useEffect(() => {
-  const result = []
-  for (let d in dlvyT) {
-   const dayName = dayjs().day(parseInt(d)).format('dddd')
-   const dlvyTime = dlvyT[d] || 'Closed'
-   result.push({ dayName: dayName, data: dlvyTime })
-  }
-  setDlvyTRenderData([...result])
- }, [])
- const navigation = useNavigation()
-
  const handleCloseModal = () => {
   navigation.goBack()
  }
+
+ const onSubmit = () => {
+  setIsSubmitting(true)
+  {
+   const updateData = allData.map((curr, idx) => ({
+    data: curr.value.isClosed
+     ? 'Closed'
+     : `${curr.value.startTime} - ${curr.value.endTime}`,
+    dayName: curr.dayName,
+   }))
+   const result = {
+    ...settingScreenData,
+    dlvyT: convertArrayToObject(updateData),
+   }
+   console.log('result: ', result)
+  }
+
+  setIsSubmitting(false)
+  handleCloseModal()
+ }
+
  return (
   <Modal onRequestClose={handleCloseModal}>
    <ScreenWrapper>
